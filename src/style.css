@@ -14,6 +14,13 @@ button {
   transition: transform 0.2s ease;
 }
 
+#shop-container {
+  display: flex; /* arrange children in a row */
+  justify-content: center; /* center the buttons horizontally */
+  gap: -50px; /* spacing between buttons */
+  margin-top: 10px;
+}
+
 button:hover {
   transform: scale(2.2); /* grows both the button and the image */
 }
