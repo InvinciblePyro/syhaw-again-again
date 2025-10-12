@@ -1,3 +1,5 @@
+// this game already has a theme (Step 8 complete)
+
 import devArt from "./developerArt.jpg";
 import mathmArt from "./mathematicianArt.jpg";
 import rsArt from "./rocketscientistArt.jpg";
