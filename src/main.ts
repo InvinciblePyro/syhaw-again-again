@@ -15,6 +15,16 @@ let numOfDevs: number = 0;
 let numOfMaths: number = 0;
 let numOfRs: number = 0;
 
+// employees salary (how much an employee costs)
+let costOfDev: number = 10;
+let costOfMaths: number = 100;
+let costOfRs: number = 1000;
+
+// employees profits (how many rocks they give)
+let profOfDev: number = 1;
+let profOfMaths: number = 2;
+let profOfRs: number = 50;
+
 // Create basic HTML structure
 document.body.innerHTML = `
   <div id = "game-container">
@@ -64,13 +74,13 @@ const growthRateElement = document.getElementById("growth-rate")!;
 
 //titles for shop buttons
 devButton.title =
-  `Hire a Developer \n(+1 rock/sec)\nCost: 10 rocks\nYou currently have: ${numOfDevs}`;
+  `Hire a Developer \n(+${profOfDev} rock/sec)\nCost: ${costOfDev} rocks\nYou currently have: ${numOfDevs}`;
 
 mathmButton.title =
-  `Hire a Mathematician \n(+2 rocks/sec)\nCost: 100 rocks\nYou currently have: ${numOfMaths}`;
+  `Hire a Mathematician \n(+${profOfMaths} rocks/sec)\nCost: ${costOfMaths} rocks\nYou currently have: ${numOfMaths}`;
 
 rsButton.title =
-  `Hire a Rocket Scientist \n(+50 rocks/sec)\nCost: 1000 rocks\nYou currently have: ${numOfRs}`;
+  `Hire a Rocket Scientist \n(+${profOfRs} rocks/sec)\nCost: ${costOfRs} rocks\nYou currently have: ${numOfRs}`;
 
 // wall button event listener
 wallButton.addEventListener("click", () => {
@@ -88,41 +98,43 @@ wallButton.addEventListener("click", () => {
 
 // dev button event listener
 devButton.addEventListener("click", () => {
-  if (rocks >= 10) {
+  if (rocks >= costOfDev) {
     numOfDevs++;
-    rocks -= 10;
-    CounterGrowthRate += 1;
+    rocks -= costOfDev;
+    CounterGrowthRate += profOfDev;
+    costOfDev *= 1.15;
+    costOfDev = Math.floor(costOfDev);
     growthRateElement.innerHTML = CounterGrowthRate.toString();
     counterElement.innerHTML = Math.floor(rocks).toString();
   }
   devButton.title =
-    `Hire a Developer \n(+1 rock/sec)\nCost: 10 rocks\nYou currently have: ${numOfDevs}`;
+    `Hire a Developer \n(+${profOfDev} rock/sec)\nCost: ${costOfDev} rocks\nYou currently have: ${numOfDevs}`;
 });
 
 // Mathematician button event listener
 mathmButton.addEventListener("click", () => {
-  if (rocks >= 100) {
+  if (rocks >= costOfMaths) {
     numOfMaths++;
-    rocks -= 100;
-    CounterGrowthRate += 2;
+    rocks -= costOfMaths;
+    CounterGrowthRate += profOfMaths;
     growthRateElement.innerHTML = CounterGrowthRate.toString();
     counterElement.innerHTML = Math.floor(rocks).toString();
   }
   mathmButton.title =
-    `Hire a Mathematician \n(+2 rocks/sec)\nCost: 100 rocks\nYou currently have: ${numOfMaths}`;
+    `Hire a Mathematician \n(+${profOfMaths} rocks/sec)\nCost: ${costOfMaths} rocks\nYou currently have: ${numOfMaths}`;
 });
 
 // Rocket Scientist button event listener
 rsButton.addEventListener("click", () => {
-  if (rocks >= 1000) {
+  if (rocks >= costOfRs) {
     numOfRs++;
-    rocks -= 1000;
-    CounterGrowthRate += 50;
+    rocks -= costOfRs;
+    CounterGrowthRate += profOfRs;
     growthRateElement.innerHTML = CounterGrowthRate.toString();
     counterElement.innerHTML = Math.floor(rocks).toString();
   }
   rsButton.title =
-    `Hire a Rocket Scientist \n(+50 rocks/sec)\nCost: 1000 rocks\nYou currently have: ${numOfRs}`;
+    `Hire a Rocket Scientist \n(+${profOfRs} rocks/sec)\nCost: ${costOfRs} rocks\nYou currently have: ${numOfRs}`;
 });
 
 // Continuous growth with requestAnimationFrame
