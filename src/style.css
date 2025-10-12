@@ -6,27 +6,42 @@ body {
 
 button {
   display: block;
-  margin: 50px auto;
+  margin: 75px auto;
   cursor: pointer;
   border: none;
   background: none;
-  transform: scale(2);
+  transform: scale(3);
   transition: transform 0.2s ease;
 }
 
-#shop-container {
-  display: flex; /* arrange children in a row */
-  justify-content: center; /* center the buttons horizontally */
-  gap: -50px; /* spacing between buttons */
-  margin-top: 10px;
-}
-
 button:hover {
-  transform: scale(2.2); /* grows both the button and the image */
+  transform: scale(3.2);
 }
 
 button:active {
-  transform: scale(1.9); /* slight shrink when clicked */
+  transform: scale(2.9);
+}
+
+#shop-container {
+  display: flex;
+  justify-content: center; /* center buttons horizontally */
+  align-items: center; /* align them vertically */
+  gap: 75px; /* small positive space between buttons */
+  margin-top: 30px;
+}
+
+#shop-container button {
+  margin: 0; /* remove extra vertical margins */
+  transform: scale(2); /* smaller default scale so they fit better */
+  transition: transform 0.2s ease;
+}
+
+#shop-container button:hover {
+  transform: scale(1.7); /* hover grow */
+}
+
+#shop-container button:active {
+  transform: scale(1.5); /* slight shrink on click */
 }
 
 .icon {

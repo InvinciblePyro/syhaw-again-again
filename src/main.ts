@@ -59,15 +59,20 @@ const rsButton = document.getElementById(
 )! as HTMLButtonElement;
 
 //titles for shop buttons
-devButton.title = `Hire ${numOfDevs + 1} Developer (10 rocks = +1 rock/sec)`;
+devButton.title =
+  `Hire a Developer \n(+1 rock/sec)\nCost: 10 rocks\nYou currently have: ${
+    numOfDevs + 1
+  }`;
 
-mathmButton.title = `Hire ${
-  numOfMaths + 1
-} Mathematician (100 rocks = +2 rock/sec)`;
+mathmButton.title =
+  `Hire a Mathematician \n(+2 rocks/sec)\nCost: 100 rocks\nYou currently have: ${
+    numOfMaths + 1
+  }`;
 
-rsButton.title = `Hire ${
-  numOfRs + 1
-} Rocket Scientist (1000 rocks = +50 rock/sec)`;
+rsButton.title =
+  `Hire a Rocket Scientist \n(+50 rocks/sec)\nCost: 1000 rocks\nYou currently have: ${
+    numOfRs + 1
+  }`;
 
 // wall button event listener
 wallButton.addEventListener("click", () => {
@@ -91,9 +96,10 @@ devButton.addEventListener("click", () => {
     CounterGrowthRate += 1;
     counterElement.innerHTML = Math.floor(rocks).toString();
   }
-  devButton.title = `Hire ${numOfDevs + 1} Developer (10 rocks = ${
-    CounterGrowthRate + 1
-  } rock/sec)`;
+  devButton.title =
+    `Hire a Developer \n(+1 rock/sec)\nCost: 10 rocks\nYou currently have: ${
+      numOfDevs + 1
+    }`;
 });
 
 // Mathematician button event listener
@@ -104,9 +110,10 @@ mathmButton.addEventListener("click", () => {
     CounterGrowthRate += 2;
     counterElement.innerHTML = Math.floor(rocks).toString();
   }
-  mathmButton.title = `Hire ${numOfMaths + 1} Mathematician (100 rocks = ${
-    CounterGrowthRate + 2
-  } rock/sec)`;
+  mathmButton.title =
+    `Hire a Mathematician \n(+2 rocks/sec)\nCost: 100 rocks\nYou currently have: ${
+      numOfMaths + 1
+    }`;
 });
 
 // Rocket Scientist button event listener
@@ -117,9 +124,10 @@ rsButton.addEventListener("click", () => {
     CounterGrowthRate += 50;
     counterElement.innerHTML = Math.floor(rocks).toString();
   }
-  rsButton.title = `Hire ${numOfRs + 1} Rocket Scientist (1000 rocks = ${
-    CounterGrowthRate + 50
-  } rock/sec)`;
+  rsButton.title =
+    `Hire a Rocket Scientist \n(+50 rocks/sec)\nCost: 1000 rocks\nYou currently have: ${
+      numOfRs + 1
+    }`;
 });
 
 // Continuous growth with requestAnimationFrame
