@@ -1,5 +1,29 @@
+body {
+  text-align: center;
+  font-family: sans-serif;
+  margin-top: 40px;
+}
+
+button {
+  display: block;
+  margin: 50px auto;
+  cursor: pointer;
+  border: none;
+  background: none;
+  transform: scale(2);
+  transition: transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(2.2); /* grows both the button and the image */
+}
+
+button:active {
+  transform: scale(1.9); /* slight shrink when clicked */
+}
+
 .icon {
   width: 64px;
   vertical-align: top;
-  border: 1px solid salmon;
+  pointer-events: none; /* ensures hover works even over image */
 }

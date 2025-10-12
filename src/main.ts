@@ -1,35 +1,60 @@
+import devArt from "./developerArt.jpg";
 import "./style.css";
-import wall from "./wallArt.jpg";
+import wallArt from "./wallArt.jpg";
 
 let rocks: number = 0;
 let LastTime = performance.now();
+let CounterGrowthRate: number = 0;
 
 // Create basic HTML structure
 document.body.innerHTML = `
   <h1>Slamming Your Head Against a Wall</h1>
   <p>Rocks: <span id="counter">0</span></p>
-  <button id="increment"><img src="${wall}" class="icon" /></button>
+  <button id="increment" title="Slam your head into the wall"><img src="${wallArt}" class="icon" /></button>
+  
+  <p>Employees:</p>
+  <button id="Developer"><img src="${devArt}" class="icon" /></button>
 `;
 
+// defining buttons
 const counterElement = document.getElementById("counter")!;
-const button = document.getElementById("increment")!;
-button.style.transform = "scale(1)";
+const wallButton = document.getElementById("increment")! as HTMLButtonElement;
+const devButton = document.getElementById("Developer")! as HTMLButtonElement;
 
-button.addEventListener("click", () => {
-  // This looks like to a good place to add some logic!
+//titles for shop buttons
+devButton.title = `Hire Developer (10 rocks = ${
+  CounterGrowthRate + 1
+} rock/sec)`;
+
+// wall button event listener
+wallButton.addEventListener("click", () => {
   rocks += 1;
-  counterElement.innerHTML = rocks.toString();
+  counterElement.innerHTML = Math.floor(rocks).toString();
 });
 
-// Step 4: Continuous growth with requestAnimationFrame
+// dev button event listener
+devButton.addEventListener("click", () => {
+  if (rocks >= 10) {
+    rocks -= 10;
+    CounterGrowthRate += 1;
+    counterElement.innerHTML = Math.floor(rocks).toString();
+  }
+});
+
+// Continuous growth with requestAnimationFrame
 function update(currentTime: number) {
   // Calculate how much time has passed since last frame
   const deltaTime = currentTime - LastTime; // milliseconds
   LastTime = currentTime;
 
   // Increase rocks based on time passed
-  rocks += deltaTime / 1000; // 1 rock per second
+  rocks += (CounterGrowthRate * deltaTime) / 1000; // CounterGrowthRate rock(s) per second
   counterElement.innerHTML = Math.floor(rocks).toString();
+
+  devButton.style.display = rocks >= 10 ? "block" : "none";
+
+  // Enable or disable Developer button based on available rocks
+  devButton.disabled = rocks < 10;
 
   // Schedule the next frame
   requestAnimationFrame(update);
