@@ -1,6 +1,5 @@
-// this game already has a theme (Step 8 complete)
-
 import devArt from "./developerArt.jpg";
+import { Employee } from "./EmployeeClass.ts";
 import mathmArt from "./mathematicianArt.jpg";
 import rsArt from "./rocketscientistArt.jpg";
 import "./style.css";
@@ -12,20 +11,11 @@ let rocks: number = 0;
 let LastTime = performance.now();
 let CounterGrowthRate: number = 0;
 
-// employee inventory
-let numOfDevs: number = 0;
-let numOfMaths: number = 0;
-let numOfRs: number = 0;
-
-// employees salary (how much an employee costs)
-let costOfDev: number = 10;
-let costOfMaths: number = 100;
-let costOfRs: number = 1000;
-
-// employees profits (how many rocks they give)
-let profOfDev: number = 1;
-let profOfMaths: number = 2;
-let profOfRs: number = 50;
+//Types of Employees
+const Dev = new Employee("Developer", 10, 1, devArt);
+const Maths = new Employee("Mathematician", 100, 2, mathmArt);
+const Rs = new Employee("Rocket Scientist", 1000, 50, rsArt);
+const employees: Employee[] = [Dev, Maths, Rs];
 
 // Create basic HTML structure
 document.body.innerHTML = `
@@ -36,11 +26,7 @@ document.body.innerHTML = `
     <button id="increment" title="Slam your head into the wall"><img src="${wallArt}" class="icon" /></button>
     
     <p>Employees hired to slam their head against the wall <br>(hover over button for stats)</p>
-    <div id = "shop-container">
-      <button id="Developer"><img src="${devArt}" class="icon" /></button>
-      <button id="Mathematician"><img src="${mathmArt}" class="icon" /></button>
-      <button id="Rocket Scientist"><img src="${rsArt}" class="icon" /></button>
-    </div>
+    <div id = "shop-container"></div>
   <div/>
 `;
 
@@ -63,26 +49,43 @@ function shakeScreen() {
 // defining buttons
 const counterElement = document.getElementById("counter")!;
 const wallButton = document.getElementById("increment")! as HTMLButtonElement;
-const devButton = document.getElementById("Developer")! as HTMLButtonElement;
-const mathmButton = document.getElementById(
-  "Mathematician",
-)! as HTMLButtonElement;
-const rsButton = document.getElementById(
-  "Rocket Scientist",
-)! as HTMLButtonElement;
+
+const shopContainer = document.getElementById("shop-container")!;
+// Create buttons dynamically
+employees.forEach((emp) => {
+  const button = document.createElement("button");
+  button.id = emp.role;
+  button.innerHTML = `<img src="${emp.art}" class="icon" />`;
+  shopContainer.appendChild(button);
+
+  emp.button = button;
+
+  // Set initial title
+  button.title =
+    `Hire a ${emp.role} \n(+${emp.profit} rock/sec)\nCost: ${emp.cost} rocks\nYou currently have: ${emp.amount}`;
+
+  // Add click listener
+  button.addEventListener("click", () => {
+    if (rocks >= emp.cost) {
+      emp.amount++;
+      rocks -= emp.cost;
+      CounterGrowthRate += emp.profit;
+
+      // Increase cost and round it
+      emp.cost = Math.floor(emp.cost * 1.15);
+
+      counterElement.innerHTML = Math.floor(rocks).toString();
+      growthRateElement.innerHTML = CounterGrowthRate.toString();
+
+      // Update title
+      button.title =
+        `Hire a ${emp.role} \n(+${emp.profit} rock/sec)\nCost: ${emp.cost} rocks\nYou currently have: ${emp.amount}`;
+    }
+  });
+});
 
 //growth rate element
 const growthRateElement = document.getElementById("growth-rate")!;
-
-//titles for shop buttons
-devButton.title =
-  `Hire a Developer \n(+${profOfDev} rock/sec)\nCost: ${costOfDev} rocks\nYou currently have: ${numOfDevs}`;
-
-mathmButton.title =
-  `Hire a Mathematician \n(+${profOfMaths} rocks/sec)\nCost: ${costOfMaths} rocks\nYou currently have: ${numOfMaths}`;
-
-rsButton.title =
-  `Hire a Rocket Scientist \n(+${profOfRs} rocks/sec)\nCost: ${costOfRs} rocks\nYou currently have: ${numOfRs}`;
 
 // wall button event listener
 wallButton.addEventListener("click", () => {
@@ -98,47 +101,6 @@ wallButton.addEventListener("click", () => {
   shakeScreen();
 });
 
-// dev button event listener
-devButton.addEventListener("click", () => {
-  if (rocks >= costOfDev) {
-    numOfDevs++;
-    rocks -= costOfDev;
-    CounterGrowthRate += profOfDev;
-    costOfDev *= 1.15;
-    costOfDev = Math.floor(costOfDev);
-    growthRateElement.innerHTML = CounterGrowthRate.toString();
-    counterElement.innerHTML = Math.floor(rocks).toString();
-  }
-  devButton.title =
-    `Hire a Developer \n(+${profOfDev} rock/sec)\nCost: ${costOfDev} rocks\nYou currently have: ${numOfDevs}`;
-});
-
-// Mathematician button event listener
-mathmButton.addEventListener("click", () => {
-  if (rocks >= costOfMaths) {
-    numOfMaths++;
-    rocks -= costOfMaths;
-    CounterGrowthRate += profOfMaths;
-    growthRateElement.innerHTML = CounterGrowthRate.toString();
-    counterElement.innerHTML = Math.floor(rocks).toString();
-  }
-  mathmButton.title =
-    `Hire a Mathematician \n(+${profOfMaths} rocks/sec)\nCost: ${costOfMaths} rocks\nYou currently have: ${numOfMaths}`;
-});
-
-// Rocket Scientist button event listener
-rsButton.addEventListener("click", () => {
-  if (rocks >= costOfRs) {
-    numOfRs++;
-    rocks -= costOfRs;
-    CounterGrowthRate += profOfRs;
-    growthRateElement.innerHTML = CounterGrowthRate.toString();
-    counterElement.innerHTML = Math.floor(rocks).toString();
-  }
-  rsButton.title =
-    `Hire a Rocket Scientist \n(+${profOfRs} rocks/sec)\nCost: ${costOfRs} rocks\nYou currently have: ${numOfRs}`;
-});
-
 // Continuous growth with requestAnimationFrame
 function update(currentTime: number) {
   // Calculate how much time has passed since last frame
@@ -148,14 +110,14 @@ function update(currentTime: number) {
   // Increase rocks based on time passed
   rocks += (CounterGrowthRate * deltaTime) / 1000; // CounterGrowthRate rock(s) per second
   counterElement.innerHTML = Math.floor(rocks).toString();
+  growthRateElement.innerHTML = CounterGrowthRate.toString();
 
-  // hide shop buttons if user cant afford them
-  devButton.style.display = rocks >= 10 ? "block" : "none";
-  mathmButton.style.display = rocks >= 100 ? "block" : "none";
-  rsButton.style.display = rocks >= 1000 ? "block" : "none";
-
-  // Enable or disable Developer button based on available rocks
-  devButton.disabled = rocks < 10;
+  // update buttons visibility & disabled
+  employees.forEach((emp) => {
+    if (!emp.button) return;
+    emp.button.style.display = rocks >= emp.cost ? "block" : "none";
+    emp.button.disabled = rocks < emp.cost;
+  });
 
   // Schedule the next frame
   requestAnimationFrame(update);
