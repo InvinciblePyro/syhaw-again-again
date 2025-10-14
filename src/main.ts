@@ -1,4 +1,5 @@
 import OSTwav from "./BangerOfTheSummer.wav";
+import SFXHirewave from "./CashRegister.wav";
 import devArt from "./developerArt.jpg";
 import { Employee } from "./EmployeeClass.ts";
 import mathmArt from "./mathematicianArt.jpg";
@@ -7,6 +8,7 @@ import "./style.css";
 import wallArt from "./wallArt.jpg";
 import SFXwallSlam from "./wallSlam.wav";
 const SFXWallSlam = new Audio(SFXwallSlam);
+const SFXHire = new Audio(SFXHirewave);
 const OST = new Audio(OSTwav);
 
 let rocks: number = 0;
@@ -14,9 +16,27 @@ let LastTime = performance.now();
 let CounterGrowthRate: number = 0;
 
 //Types of Employees
-const Dev = new Employee("Developer", 10, 1, devArt);
-const Maths = new Employee("Mathematician", 100, 2, mathmArt);
-const Rs = new Employee("Rocket Scientist", 1000, 50, rsArt);
+const Dev = new Employee(
+  "Developer",
+  10,
+  1,
+  devArt,
+  "Surely the job market will ALWAYS need more developers!",
+);
+const Maths = new Employee(
+  "Mathematician",
+  100,
+  2,
+  mathmArt,
+  "They do like math and stuff... idk im not a mathematician",
+);
+const Rs = new Employee(
+  "Rocket Scientist",
+  1000,
+  50,
+  rsArt,
+  "They're job is like super easy and they get paid way more than they should tbh",
+);
 const employees: Employee[] = [Dev, Maths, Rs];
 
 // Create basic HTML structure
@@ -72,6 +92,13 @@ employees.forEach((emp) => {
       emp.amount++;
       rocks -= emp.cost;
       CounterGrowthRate += emp.profit;
+
+      //button sfx
+      // Set a random pitch between 0.8x and 1.2x
+      SFXHire.playbackRate = 0.2 + Math.random() * 3.5;
+
+      SFXHire.currentTime = 0; // rewind to start
+      SFXHire.play(); // play the sound
 
       // Increase cost and round it
       emp.cost = Math.floor(emp.cost * 1.15);

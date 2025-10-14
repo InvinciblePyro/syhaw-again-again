@@ -6,6 +6,7 @@ export class Employee {
     public cost: number,
     public profit: number,
     public art: string,
+    public desc: string,
     public amount: number = 0,
   ) {}
 }
