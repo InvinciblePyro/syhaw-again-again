@@ -94,9 +94,6 @@ employees.forEach((emp) => {
       CounterGrowthRate += emp.profit;
 
       //button sfx
-      // Set a random pitch between 0.8x and 1.2x
-      SFXHire.playbackRate = 0.2 + Math.random() * 3.5;
-
       SFXHire.currentTime = 0; // rewind to start
       SFXHire.play(); // play the sound
 
