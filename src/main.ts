@@ -1,7 +1,9 @@
 import OSTwav from "./BangerOfTheSummer.wav";
+import brainArt from "./brainArt.jpg";
 import SFXHirewave from "./CashRegister.wav";
 import devArt from "./developerArt.jpg";
 import { Employee } from "./EmployeeClass.ts";
+import engArt from "./EngineerArt.jpg";
 import mathmArt from "./mathematicianArt.jpg";
 import rsArt from "./rocketscientistArt.jpg";
 import "./style.css";
@@ -21,23 +23,41 @@ const Dev = new Employee(
   10,
   1,
   devArt,
-  "Surely the job market will ALWAYS need more developers!",
+  "\nSurely the job market will \nALWAYS need more developers!",
 );
 const Maths = new Employee(
   "Mathematician",
-  100,
+  50,
   2,
   mathmArt,
-  "They do like math and stuff... idk im not a mathematician",
+  "\nThey do like math and stuff... \nidk im not a mathematician",
 );
 const Rs = new Employee(
   "Rocket Scientist",
   1000,
   50,
   rsArt,
-  "They're job is like super easy and they get paid way more than they should tbh",
+  "\nThey're job is like super easy and \nthey get paid way more than they should tbh",
 );
-const employees: Employee[] = [Dev, Maths, Rs];
+
+const Eng = new Employee(
+  "Engineer",
+  500,
+  10,
+  engArt,
+  "\nThey take way too complicated college \ncourses to play lego for their career",
+);
+
+const Brain = new Employee(
+  "Brain Surgeon",
+  10000,
+  100,
+  brainArt,
+  "\nI could do this with an \neyepatch on, a fifth of vodka \nin my stomach, and some vicodin",
+);
+
+// array of all employees
+const employees: Employee[] = [Dev, Maths, Rs, Eng, Brain];
 
 // Create basic HTML structure
 document.body.innerHTML = `
@@ -84,7 +104,7 @@ employees.forEach((emp) => {
 
   // Set initial title
   button.title =
-    `Hire a ${emp.role} \n(+${emp.profit} rock/sec)\nCost: ${emp.cost} rocks\nYou currently have: ${emp.amount}`;
+    `Hire a ${emp.role} \n(+${emp.profit} rock/sec)\nCost: ${emp.cost} rocks\nYou currently have: ${emp.amount}\n${emp.desc}`;
 
   // Add click listener
   button.addEventListener("click", () => {
@@ -98,14 +118,15 @@ employees.forEach((emp) => {
       SFXHire.play(); // play the sound
 
       // Increase cost and round it
-      emp.cost = Math.floor(emp.cost * 1.15);
-
+      if (emp.role == "Developer") {
+        emp.cost = Math.floor(emp.cost * 1.15);
+      }
       counterElement.innerHTML = Math.floor(rocks).toString();
       growthRateElement.innerHTML = CounterGrowthRate.toString();
 
       // Update title
       button.title =
-        `Hire a ${emp.role} \n(+${emp.profit} rock/sec)\nCost: ${emp.cost} rocks\nYou currently have: ${emp.amount}`;
+        `Hire a ${emp.role} \n(+${emp.profit} rock/sec)\nCost: ${emp.cost} rocks\nYou currently have: ${emp.amount}\n${emp.desc}`;
     }
   });
 });
