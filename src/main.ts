@@ -1,3 +1,4 @@
+import OSTwav from "./BangerOfTheSummer.wav";
 import devArt from "./developerArt.jpg";
 import { Employee } from "./EmployeeClass.ts";
 import mathmArt from "./mathematicianArt.jpg";
@@ -6,6 +7,7 @@ import "./style.css";
 import wallArt from "./wallArt.jpg";
 import SFXwallSlam from "./wallSlam.wav";
 const SFXWallSlam = new Audio(SFXwallSlam);
+const OST = new Audio(OSTwav);
 
 let rocks: number = 0;
 let LastTime = performance.now();
@@ -100,6 +102,16 @@ wallButton.addEventListener("click", () => {
 
   shakeScreen();
 });
+
+OST.currentTime = 0;
+OST.loop = true;
+
+function startMusicOnce() {
+  OST.play();
+  document.removeEventListener("click", startMusicOnce);
+}
+
+document.addEventListener("click", startMusicOnce);
 
 // Continuous growth with requestAnimationFrame
 function update(currentTime: number) {
